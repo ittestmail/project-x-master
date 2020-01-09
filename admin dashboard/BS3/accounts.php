@@ -1,6 +1,7 @@
 <?php
 include('config.php');
 session_start();
+include "check.php"
 ?>
 <!doctype html>
 <html lang="en">
@@ -9,7 +10,7 @@ session_start();
 	<link rel="icon" type="image/png" href="assets/img/favicon.ico">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-	<title>Light Bootstrap Dashboard by Creative Tim</title>
+	<title>Project-x</title>
 
 	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
@@ -129,40 +130,13 @@ session_start();
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#">User</a>
+                    <a class="navbar-brand" href="#">Accounts</a>
                 </div>
                 <div class="collapse navbar-collapse">
                   
 
                     <ul class="nav navbar-nav navbar-right">
-                        <li>
-                           <a href="">
-                               <p>Account</p>
-                            </a>
-                        </li>
-                        <li class="dropdown">
-                              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <p>
-										Dropdown
-										<b class="caret"></b>
-									</p>
-
-                              </a>
-                              <ul class="dropdown-menu">
-                                <li><a href="#">Action</a></li>
-                                <li><a href="#">Another action</a></li>
-                                <li><a href="#">Something</a></li>
-                                <li><a href="#">Another action</a></li>
-                                <li><a href="#">Something</a></li>
-                                <li class="divider"></li>
-                                <li><a href="#">Separated link</a></li>
-                              </ul>
-                        </li>
-                        <li>
-                            <a href="/project-x-master/customer-page.php">
-                                <p>Exit</p>
-                            </a>
-                        </li>
+                     
                         <li>
                             <a href="/project-x-master/logout-customer.php">
                                 <p>Log out</p>
@@ -178,7 +152,7 @@ session_start();
         <div class="content">
         
 
-      <button type="button" class="button" id="add_company">Add company</button>
+      
 
       <table class="datatable" id="table_companies">
         <thead>
@@ -200,57 +174,7 @@ session_start();
 
     </div>
 
-    <div class="lightbox_bg"></div>
-
-    <div class="lightbox_container">
-      <div class="lightbox_close"></div>
-      <div class="lightbox_content">
-        
-        <h2>Add company</h2>
-        <form class="form add" id="form_company" data-id="" novalidate>
-          <div class="input_container">
-            <label for="company">Bedrijf: <span class="required">*</span></label>
-            <div class="field_container">
-              <input type="text" class="text" name="company" id="company" value="" required>
-            </div>
-          </div>
-          <div class="input_container">
-            <label for="firstname">Voornaam: <span class="required">*</span></label>
-            <div class="field_container">
-              <input type="text" class="text" name="firstname" id="firstname" value="" required>
-            </div>
-          </div>
-          <div class="input_container">
-            <label for="lastname">Achternaam: <span class="required">*</span></label>
-            <div class="field_container">
-              <input type="text" class="text" name="lastname" id="lastname" value="" required>
-            </div>
-          </div>
-          <div class="input_container">
-            <label for="username">Gebruikersnaam: <span class="required">*</span></label>
-            <div class="field_container">
-              <input type="text"  class="text" name="username" id="username" value="" required>
-            </div>
-          </div>
-          <div class="input_container">
-            <label for="email">Email: <span class="required">*</span></label>
-            <div class="field_container">
-              <input type="text"  class="text" name="email" id="email" value="" required>
-            </div>
-          </div>
-          <div class="input_container">
-            <label for="functie">Functie: <span class="required">*</span></label>
-            <div class="field_container">
-              <input type="text"  class="text" name="functie" id="functie" value="" required>
-            </div>
-          </div>
-          <div class="button_container">
-            <button type="submit">Add company</button>
-          </div>
-        </form>
-        
-      </div>
-    </div>
+    
 
     <noscript id="noscript_container">
       <div id="noscript" class="error">

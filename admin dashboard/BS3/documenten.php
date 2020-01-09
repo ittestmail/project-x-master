@@ -1,6 +1,7 @@
 <?php
 session_start();
 require "config.php";
+include "check.php";
 $mysqli = mysqli_connect('localhost', 'root', '', 'projectx');
 
 try{
@@ -20,7 +21,7 @@ catch(PDOException $pe){
 	<link rel="icon" type="image/png" href="assets/img/favicon.ico">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-	<title>Light Bootstrap Dashboard by Creative Tim</title>
+	<title>Projext-x</title>
 
 	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
@@ -45,9 +46,16 @@ catch(PDOException $pe){
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
     <link href="assets/css/pe-icon-7-stroke.css" rel="stylesheet" />
     <script src="https://kit.fontawesome.com/80733e1821.js" crossorigin="anonymous"></script>
+    <link href="upload.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="css/normalize.css" />
+		<link rel="stylesheet" type="text/css" href="css/demo.css" />
+		<link rel="stylesheet" type="text/css" href="css/component.css" />
+
+        <script>(function(e,t,n){var r=e.querySelectorAll("html")[0];r.className=r.className.replace(/(^|\s)no-js(\s|$)/,"$1js$2")})(document,window,0);</script>
+	
 </head>
 <body>
-
+<script>(function(e,t,n){var r=e.querySelectorAll("html")[0];r.className=r.className.replace(/(^|\s)no-js(\s|$)/,"$1js$2")})(document,window,0);</script>
 <div class="wrapper">
 <div class="sidebar" data-color="blue" data-image="assets/img/sidebar-4.jpg">
 
@@ -140,7 +148,7 @@ catch(PDOException $pe){
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#">Table List</a>
+                    <a class="navbar-brand" href="#">Documenten</a>
                 </div>
                 <div class="collapse navbar-collapse">
                     
@@ -173,12 +181,12 @@ catch(PDOException $pe){
   	// Get image name
   	$image = $_FILES['image']['name'];
   	// Get text
-  	$image_text = mysqli_real_escape_string($db, $_POST['image_text']);
+  	
       
   	// image file directory
   	$target = ($_SERVER['DOCUMENT_ROOT']. '/project-x-master/uploads/pdf/').basename($image);
     $hoi = "HOI";
-  	$sql = "INSERT INTO images (image, image_text, company) VALUES ('$image', '$image_text', '$company')";
+  	$sql = "INSERT INTO images (image, company) VALUES ('$image', '$_POST[company]')";
   	// execute query
   	mysqli_query($db, $sql);
 
@@ -195,76 +203,54 @@ catch(PDOException $pe){
 
 
 
+?>
 
 
-
-  $statusMsg = '';
-
-//file upload path
-$targetDir = ($_SERVER['DOCUMENT_ROOT']. '/project-x-master/uploads/pdf/');
-$fileName = basename($_FILES["file"]["name"]);
-$targetFilePath = $targetDir . $fileName;
-$fileType = pathinfo($targetFilePath,PATHINFO_EXTENSION);
-
-if(isset($_POST["submit"]) && !empty($_FILES["file"]["name"])) {
-    //allow certain file formats
-    $allowTypes = array('jpg','png','jpeg','gif','pdf');
-    if(in_array($fileType, $allowTypes)){
-        //upload file to server
-        if(move_uploaded_file($_FILES["file"]["tmp_name"], $targetFilePath)){
-            $statusMsg = "The file ".$fileName. " has been uploaded.";
-        }else{
-            $statusMsg = "Sorry, there was an error uploading your file.";
-        }
-    }else{
-        $statusMsg = 'Sorry, only JPG, JPEG, PNG, GIF, & PDF files are allowed to upload.';
-    }
-}else{
-    $statusMsg = 'Please select a file to upload.';
-}
-
-//display status message
-echo $statusMsg;
-
-
-
-  ?>
-            <form action="table.php" method="post" enctype="multipart/form-data">
-    Select File to Upload:
-    <input type="file" name="file">
-    <input type="submit" name="submit" value="Upload">
+ 
+            <form action="upload.php" method="post" enctype="multipart/form-data">
+    
+            
+					<input type="file" name="file" id="file" class="inputfile inputfile-1"  />
+					<label for="file"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Kies file om naar de webiste te uploaden&hellip;</span></label>
+				
+<br>
+<input type="submit" name="submit" id="file3" class="inputfile inputfile-1"  />
+					<label for="file3"><width="20" height="17" viewBox="0 0 20 17"> <span>Upload naar de website</span></label>
+			
 </form>
 
 
 
 
-            <form method="POST" action="table.php" enctype="multipart/form-data">
+            <form method="POST" action="documenten.php" enctype="multipart/form-data">
 
 
 
 
   	<input type="hidden" name="size" value="1000000">
   	<div>
-  	  <input type="file" name="image">
+          <br>
+      <input type="file" name="image" id="file1" class="inputfile inputfile-1"  />
+					<label for="file1"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Choose a file&hellip;</span></label>
+				
   	</div>
+  	<select name="company">
+    <option value="Gondrand">Gondrand</option>
+    <option value="Kobout">Kobout</option>
+  </select>
+ 
   	<div>
-      <textarea 
-      	id="text" 
-      	cols="40" 
-      	rows="4" 
-      	name="image_text" 
-      	placeholder="Say something about this image..."></textarea>
-  	</div>
-  	<div>
-  		<button type="submit" name="upload">POST</button>
+      <br>
+  		<input type="submit" name="upload" id="file2" class="inputfile inputfile-1"  />
+					<label for="file2"><width="20" height="17" viewBox="0 0 20 17"> <span>Upload</span></label>
+			
   	</div>
       
   </form>
       
            
 
-       
-
+  
 
     </div>
 </div>
@@ -301,5 +287,6 @@ echo $statusMsg;
 	<!-- Light Bootstrap Table DEMO methods, don't include it in your project! -->
 	<script src="assets/js/demo.js"></script>
 
+    <script src="js/custom-file-input.js"></script>
 
 </html>

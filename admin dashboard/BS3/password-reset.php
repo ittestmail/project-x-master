@@ -1,6 +1,7 @@
 <?php
 include('config.php');
 session_start();
+include "check.php"
 ?>
 <!doctype html>
 <html lang="en">
@@ -9,7 +10,7 @@ session_start();
 	<link rel="icon" type="image/png" href="assets/img/favicon.ico">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-	<title>Light Bootstrap Dashboard by Creative Tim</title>
+	<title>Project-x</title>
 
 	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
@@ -134,7 +135,7 @@ session_start();
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#">User</a>
+                    <a class="navbar-brand" href="#">Password reset</a>
                 </div>
                 <div class="collapse navbar-collapse">
                   

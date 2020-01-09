@@ -179,7 +179,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 							}
 
 							else if($functie == ADMIN){
-								echo "<script> location.href='admin dashboard/BS3/dashboard.php'; </script>";
+								echo "<script> location.href='admin dashboard/BS3/home.php'; </script>";
 							}
                         } else{
                             // Display an error message if password is not valid

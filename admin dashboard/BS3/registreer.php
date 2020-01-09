@@ -1,5 +1,6 @@
 <?php
 session_start();
+include "check.php";
 
 
 
@@ -53,7 +54,7 @@ if(mysqli_num_rows($result)>=1)//You are mixing the mysql and mysqli, change thi
     
     if($result1){
         
-          header("Location: typography.php");
+          header("Location: registreer.php");
   
     }
     }
@@ -68,7 +69,7 @@ if(mysqli_num_rows($result)>=1)//You are mixing the mysql and mysqli, change thi
 	<link rel="icon" type="image/png" href="assets/img/favicon.ico">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-	<title>Light Bootstrap Dashboard by Creative Tim</title>
+	<title>Project-x</title>
 
 	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
@@ -249,9 +250,7 @@ if(mysqli_num_rows($result)>=1)//You are mixing the mysql and mysqli, change thi
                  
 </div>
 
-              <!--<div class="form-group">
-                    <input class="form-control form-control-lg" type="number" min="0" max="9999999" value="" step=".01" name="inkomen" required="" placeholder="inkomen" autocomplete="off">
-                </div>-->
+            
                 
                 <div class="form-group">
                     <input class="form-control form-control-lg" type="email" name="email" required="" placeholder="E-mail" autocomplete="off">
