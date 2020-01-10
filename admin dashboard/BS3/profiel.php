@@ -1,7 +1,28 @@
 <?php
-include('config.php');
+require('config.php');
 session_start();
-include "check.php"
+include "check.php";
+$result = mysqli_query($con, "SELECT company, username, email, firstname, lastname FROM users WHERE id = '$_SESSION[id]'");
+$row = mysqli_fetch_array($result);
+
+
+
+if (isset($_POST['currentPassword'])){
+    $oldpwd = password_hash($_POST['currentPassword'], PASSWORD_DEFAULT);
+    $newpwd = password_hash($_POST['newPassword'], PASSWORD_DEFAULT);
+    $cnfpwd = password_hash($_POST['confirmPassword'], PASSWORD_DEFAULT);
+    if (count($_POST) > 0) {
+        $result = mysqli_query($conn, "SELECT * from users WHERE id='" . $_SESSION["id"] . "'");
+        $row = mysqli_fetch_array($result);
+        if (password_verify($_POST['currentPassword'], $row['password'])) {
+            mysqli_query($conn, "UPDATE users set password='" . $newpwd . "' WHERE id='" . $_SESSION["id"] . "'");
+            $message = "Password Changed";
+        } else
+            $message = "Current Password is not correct";
+    }
+    } else{
+        
+    }
 ?>
 <!doctype html>
 <html lang="en">
@@ -35,6 +56,39 @@ include "check.php"
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
     <link href="assets/css/pe-icon-7-stroke.css" rel="stylesheet" />
     <script src="https://kit.fontawesome.com/80733e1821.js" crossorigin="anonymous"></script>
+    <script>
+function validatePassword() {
+var currentPassword,newPassword,confirmPassword,output = true;
+
+currentPassword = document.frmChange.currentPassword;
+newPassword = document.frmChange.newPassword;
+confirmPassword = document.frmChange.confirmPassword;
+
+if(!currentPassword.value) {
+currentPassword.focus();
+document.getElementById("currentPassword").innerHTML = "<span style='color: red;'>required</span>";
+output = false;
+}
+else if(!newPassword.value) {
+newPassword.focus();
+document.getElementById("newPassword").innerHTML = "<span style='color: red;'>required</span>";
+output = false;
+}
+else if(!confirmPassword.value) {
+confirmPassword.focus();
+document.getElementById("confirmPassword").innerHTML = "<span style='color: red;'>required</span>";
+output = false;
+}
+if(newPassword.value != confirmPassword.value) {
+newPassword.value="";
+confirmPassword.value="";
+newPassword.focus();
+document.getElementById("confirmPassword").innerHTML = "<span style='color: red;'>not same</span>";
+output = false;
+} 	
+return output;
+}
+</script> 
 </head>
 <body>
 
@@ -48,7 +102,7 @@ include "check.php"
             <div class="logo">
                 <a href="" class="simple-text">
                 <?php
-                echo "Welcome " .  $_SESSION["username"];
+                echo "Welcome " .  $row['username'];
                 ?>
                 </a>
                 </a>
@@ -159,24 +213,24 @@ include "check.php"
                                 <h4 class="title">Edit Profile</h4>
                             </div>
                             <div class="content">
-                                <form method="post" action="user.php">
+                                <form method="post" action="profiel.php">
                                     <div class="row">
                                         <div class="col-md-5">
                                             <div class="form-group">
                                                 <label>Company</label>
-                                                <input type="text" class="form-control" name="company" value="<?php echo $_SESSION["company"] ?>" disabled>
+                                                <input type="text" class="form-control" name="company" value="<?php echo $_SESSION['company'] ;?>" disabled>
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <i class="pe-7s-user"></i> <label>Username</label>
-                                                <input type="text" class="form-control" name="username" placeholder="Username" value="<?php echo $_SESSION["username"];?>">
+                                                <input type="text" class="form-control" name="username" placeholder="Username" value="<?php echo $row['username'];?>">
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
                                             <i class="pe-7s-mail "></i> <label for="exampleInputEmail1"> Email address</label>
-                                                <input type="email" class="form-control" name="email" placeholder="Email" value="<?php echo $_SESSION["email"];?>">
+                                                <input type="email" class="form-control" name="email" placeholder="Email" value="<?php echo $row['email'];?>">
                                             </div>
                                         </div>
                                     </div>
@@ -185,13 +239,13 @@ include "check.php"
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>First Name</label>
-                                                <input type="text" class="form-control" name="firstname" placeholder="Company" value="<?php echo $_SESSION["firstname"];?>">
+                                                <input type="text" class="form-control" name="firstname" placeholder="Company" value="<?php echo $row['firstname'];?>">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Last Name</label>
-                                                <input type="text" class="form-control" name="lastname" placeholder="Last Name" value="<?php echo $_SESSION["lastname"];?>">
+                                                <input type="text" class="form-control" name="lastname" placeholder="Last Name" value="<?php echo $row['lastname'];?>">
                                             </div>
                                         </div>
                                     </div>
@@ -201,14 +255,32 @@ include "check.php"
 
                                     
 
-                                    <button type="submit" class="btn btn-info btn-fill pull-right" name="update">Update Profile</button>
+                                    <input type="submit" class="btn btn-info btn-fill pull-right" name="update" value="Submit">
                                     <div class="clearfix"></div>
                                 </form>
                             </div>
                         </div>
                     </div>
 
-                    
+                    <?php
+    
+    
+    
+
+    
+    
+    
+    if (isset($_POST["update"])) {
+        
+        mysqli_query($con, "SELECT company, username, email, firstname, lastname FROM users WHERE id = '". $_SESSION['id'] . "'");
+        mysqli_query($con, "UPDATE users set username='" . $_POST['username'] ."', email='". $_POST['email'] ."', firstname='". $_POST['firstname'] . "', lastname='". $_POST['lastname'] ."' WHERE id='" . $_SESSION["id"] . "'");
+        echo "<script>window.location.href = 'profiel.php'</script>";
+    }
+
+ 
+    $result = mysqli_query($con, "SELECT company, username, email, firstname, lastname FROM users WHERE id = '$_SESSION[id]'");
+    $row = mysqli_fetch_array($result);
+?>
                     
                                  
                     <div class="col-md-4">
@@ -221,10 +293,10 @@ include "check.php"
                                      <a href="#">
                                     <img class="avatar border-gray" src="assets/img/faces/face-3.jpg" alt="..."/>
 
-                                      <h4 class="title" <?php echo $_SESSION["company"];?><br>
-                                      <?php echo $_SESSION["company"];?>
+                                      <h4 class="title">
+                                      <?php echo $row["company"];?>
                                       <br>
-                                         <small><?php echo $_SESSION["username"];?></small>
+                                         <small><?php echo $row["username"];?></small>
                                       </h4>
                                     </a>
                                 </div>
@@ -235,8 +307,13 @@ include "check.php"
                     </div>
 
                 </div>
+
+                
             </div>
         </div>
+
+
+
 
 
         <footer class="footer">

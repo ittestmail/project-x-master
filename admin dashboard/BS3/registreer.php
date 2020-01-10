@@ -1,13 +1,11 @@
 <?php
+require('config.php');
 session_start();
 include "check.php";
+$result = mysqli_query($con, "SELECT company, username, email, firstname, lastname FROM users WHERE id = '$_SESSION[id]'");
+$row = mysqli_fetch_array($result);
 
 
-
-
-
-
-require_once "config.php";
  
 //require('db.php');
      
@@ -108,7 +106,7 @@ if(mysqli_num_rows($result)>=1)//You are mixing the mysql and mysqli, change thi
             <div class="logo">
                 <a href="" class="simple-text">
                 <?php
-                echo "Welcome " .  $_SESSION["username"];
+                echo "Welcome " .  $row["username"];
                 ?>
                 </a>
                 </a>

@@ -1,19 +1,12 @@
 <?php
+require('config.php');
 session_start();
-require "config.php";
 include "check.php";
-$mysqli = mysqli_connect('localhost', 'root', '', 'projectx');
-
-try{
-    $sqlconnection = new pdo('mysql:host=localhost;dbname=projectx;charset=utf8','root','');
-
-    }   
-catch(PDOException $pe){
-    echo 'Cannot connect to database';
-    die;
-}
-
+$result = mysqli_query($con, "SELECT company, username, email, firstname, lastname FROM users WHERE id = '$_SESSION[id]'");
+$row = mysqli_fetch_array($result);
 ?>
+
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -67,7 +60,7 @@ catch(PDOException $pe){
             <div class="logo">
                 <a href="" class="simple-text">
                 <?php
-                echo "Welcome " .  $_SESSION["username"];
+                echo "Welcome " .  $row["username"];
                 ?>
                 </a>
                 </a>
@@ -169,9 +162,9 @@ catch(PDOException $pe){
         </nav>
 
         <div class="content">
-            <div class="container-fluid">
+            
                 <?php
-            $db = mysqli_connect("localhost", "root", "", "projectx");
+            
 
   // Initialize message variable
   $msg = "";
@@ -188,7 +181,7 @@ catch(PDOException $pe){
     $hoi = "HOI";
   	$sql = "INSERT INTO images (image, company) VALUES ('$image', '$_POST[company]')";
   	// execute query
-  	mysqli_query($db, $sql);
+  	mysqli_query($con, $sql);
 
   	if (move_uploaded_file($_FILES['image']['tmp_name'], $target)) {
   		$msg = "Image uploaded successfully";
@@ -247,15 +240,45 @@ catch(PDOException $pe){
   	</div>
       
   </form>
-      
-           
+  
+  <?php
+  $query = "SELECT * FROM images";
 
+ 
+if ($result = $con->query($query)) {
+    echo "<table class='table'>";
+    echo "<tr>";
+        
+        echo "<th>image</th>";
+        echo "<th>company</th>";
+    echo "</tr>";
+    while ($row = $result->fetch_assoc()) {
+        
+        $field2name = $row["image"];
+        $field3name = $row["company"];
+        
+        echo "<tr>";
+            
+            echo "<td><a href='/project-x-master/uploads/pdf/".$row['image']."' target='_blank'>" . $field2name ."</a></td>";
+            echo "<td>" . $field3name ."</td>";
+        echo "</tr>";
+        
+        
+    }
+    echo "</table>";
+/*freeresultset*/
+$result->free();
+
+}
+          ?> 
+          
+</div>
   
 
     </div>
 </div>
 
-</div>
+
 
 <footer class="footer">
             <div class="container-fluid">

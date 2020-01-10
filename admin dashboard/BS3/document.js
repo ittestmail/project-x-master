@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
   // On page load: datatable
   var table_companies = $("#table_companies").dataTable({
     ajax: "data.php?job=get_companies",
@@ -42,16 +42,16 @@ $(document).ready(function() {
         max: 2025
       }
     },
-    errorPlacement: function(error, element) {
+    errorPlacement: function (error, element) {
       error.insertBefore(element);
     },
-    highlight: function(element) {
+    highlight: function (element) {
       $(element)
         .parent(".field_container")
         .removeClass("valid")
         .addClass("error");
     },
-    unhighlight: function(element) {
+    unhighlight: function (element) {
       $(element)
         .parent(".field_container")
         .addClass("valid")
@@ -70,7 +70,7 @@ $(document).ready(function() {
     if (typeof timeout_message !== "undefined") {
       window.clearTimeout(timeout_message);
     }
-    timeout_message = setTimeout(function() {
+    timeout_message = setTimeout(function () {
       hide_message();
     }, 8000);
   }
@@ -102,15 +102,15 @@ $(document).ready(function() {
     $(".lightbox_container").hide();
   }
   // Lightbox background
-  $(document).on("click", ".lightbox_bg", function() {
+  $(document).on("click", ".lightbox_bg", function () {
     hide_lightbox();
   });
   // Lightbox close button
-  $(document).on("click", ".lightbox_close", function() {
+  $(document).on("click", ".lightbox_close", function () {
     hide_lightbox();
   });
   // Escape keyboard key
-  $(document).keyup(function(e) {
+  $(document).keyup(function (e) {
     if (e.keyCode == 27) {
       hide_lightbox();
     }
@@ -123,7 +123,7 @@ $(document).ready(function() {
   }
 
   // Delete company
-  $(document).on("click", ".function_delete a", function(e) {
+  $(document).on("click", ".function_delete a", function (e) {
     e.preventDefault();
     var company_name = $(this).data("name");
     if (confirm("Are you sure you want to delete '" + company_name + "'?")) {
@@ -136,10 +136,10 @@ $(document).ready(function() {
         contentType: "application/json; charset=utf-8",
         type: "get"
       });
-      request.done(function(output) {
+      request.done(function (output) {
         if (output.result == "success") {
           // Reload datable
-          table_companies.api().ajax.reload(function() {
+          table_companies.api().ajax.reload(function () {
             hide_loading_message();
             show_message(
               "Company '" + company_name + "' deleted successfully.",
@@ -151,7 +151,7 @@ $(document).ready(function() {
           show_message("Delete request failed", "error");
         }
       });
-      request.fail(function(jqXHR, textStatus) {
+      request.fail(function (jqXHR, textStatus) {
         hide_loading_message();
         show_message("Delete request failed: " + textStatus, "error");
       });

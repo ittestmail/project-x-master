@@ -1,7 +1,9 @@
 <?php
-include('config.php');
+require('config.php');
 session_start();
-include "check.php"
+include "check.php";
+$result = mysqli_query($con, "SELECT company, username, email, firstname, lastname FROM users WHERE id = '$_SESSION[id]'");
+$row = mysqli_fetch_array($result);
 ?>
 <!doctype html>
 <html lang="en">
@@ -49,7 +51,7 @@ include "check.php"
             <div class="logo">
                 <a href="" class="simple-text">
                 <?php
-                echo "Welcome " .  $_SESSION["username"];
+                echo "Welcome " .  $row["username"];
                 ?>
                 </a>
                 </a>

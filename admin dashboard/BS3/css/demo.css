@@ -146,13 +146,7 @@ a:focus {
 
 /* Content */
 
-.content {
-	width: 100%;
-	max-width: 800px;
-	text-align: center;
-	margin: 0 auto;
-	padding: 0 0 3em 0;
-}
+
 
 .content footer {
 	color: #b39295;

@@ -1,8 +1,34 @@
 <?php
-include('config.php');
+require('config.php');
 session_start();
-include "check.php"
+include "check.php";
+$result = mysqli_query($con, "SELECT company, username, email, firstname, lastname FROM users WHERE id = '$_SESSION[id]'");
+$row = mysqli_fetch_array($result);
+
+
+if (isset($_POST['currentPassword'])){
+$oldpwd = password_hash($_POST['currentPassword'], PASSWORD_DEFAULT);
+$newpwd = password_hash($_POST['newPassword'], PASSWORD_DEFAULT);
+$cnfpwd = password_hash($_POST['confirmPassword'], PASSWORD_DEFAULT);
+if (count($_POST) > 0) {
+    $result = mysqli_query($conn, "SELECT * from users WHERE id='" . $_SESSION["id"] . "'");
+    $row = mysqli_fetch_array($result);
+    if (password_verify($_POST['currentPassword'], $row['password'])) {
+        mysqli_query($conn, "UPDATE users set password='" . $newpwd . "' WHERE id='" . $_SESSION["id"] . "'");
+        $message = "Password Changed";
+    } else
+        $message = "Current Password is not correct";
+}
+} else{
+    
+}
+
 ?>
+
+
+
+
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -35,6 +61,40 @@ include "check.php"
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
     <link href="assets/css/pe-icon-7-stroke.css" rel="stylesheet" />
     <script src="https://kit.fontawesome.com/80733e1821.js" crossorigin="anonymous"></script>
+   
+<script>
+function validatePassword() {
+var currentPassword,newPassword,confirmPassword,output = true;
+
+currentPassword = document.frmChange.currentPassword;
+newPassword = document.frmChange.newPassword;
+confirmPassword = document.frmChange.confirmPassword;
+
+if(!currentPassword.value) {
+currentPassword.focus();
+document.getElementById("currentPassword").innerHTML = "<span style='color: red;'>required</span>";
+output = false;
+}
+else if(!newPassword.value) {
+newPassword.focus();
+document.getElementById("newPassword").innerHTML = "<span style='color: red;'>required</span>";
+output = false;
+}
+else if(!confirmPassword.value) {
+confirmPassword.focus();
+document.getElementById("confirmPassword").innerHTML = "<span style='color: red;'>required</span>";
+output = false;
+}
+if(newPassword.value != confirmPassword.value) {
+newPassword.value="";
+confirmPassword.value="";
+newPassword.focus();
+document.getElementById("confirmPassword").innerHTML = "<span style='color: red;'>not same</span>";
+output = false;
+} 	
+return output;
+}
+</script>  
 </head>
 <body>
 
@@ -48,7 +108,7 @@ include "check.php"
             <div class="logo">
                 <a href="" class="simple-text">
                 <?php
-                echo "Welcome " .  $_SESSION["username"];
+                echo "Welcome " .  $row["username"];
                 ?>
                 </a>
                 </a>
@@ -156,17 +216,83 @@ include "check.php"
         </nav>
 
 
-        <div class="content">
+        
+
+
+       
 
 
 
 
 
 
+<div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="card">
+                            <div class="header">
+                                <h4 class="title">Change password</h4>
+                            </div>
+                            <div class="content">
+                           
+                            <form name="frmChange" method="post" action=""
+        onSubmit="return validatePassword()">
+        
+                                <div>
 
 
+                                    <div class="row">
+                                       
+                                        <div class="col-md-9">
+                                            <div class="form-group">
+                                                <label>Current Password</label>
+                                                <input type="password"  class="form-control" name="currentPassword" placeholder="" class="required"><span id="currentPassword"  class="required"></span>
+                                            </div>
+                                        </div>
+                                      
+                                    </div>
 
-</div>
+                                    <div class="row">
+                                        <div class="col-md-9">
+                                            <div class="form-group">
+                                                <label>New Password</label>
+                                                <input type="password"  class="form-control" name="newPassword" placeholder="" class="required"><span id="newPassword" class="required">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-9">
+                                            <div class="form-group">
+                                                <label>Confirm Password</label>
+                                                <input type="password"  class="form-control" name="confirmPassword" placeholder="" class="required"></span><span id="confirmPassword" class="required">
+                                            </div>
+                                        </div>
+
+                                    
+                                   </div>
+                                   <div class="message"><?php if(isset($message)) { echo $message; } ?></div>
+                                    
+
+                                    <button type="submit" class="btn btn-info btn-fill pull-right"  name="submit">Submit</button>
+                                    <div class="clearfix"></div>
+                                  
+                                </form>
+                             </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    
+                                 
+               
+
+                </div>
+            </div>
+        </div>
+
 
                     
                     
@@ -207,6 +333,9 @@ include "check.php"
 	<script src="assets/js/light-bootstrap-dashboard.js?v=1.4.0"></script>
 
 	<!-- Light Bootstrap Table DEMO methods, don't include it in your project! -->
-	<script src="assets/js/demo.js"></script>
+    <script src="assets/js/demo.js"></script>
+    
+
+
 
 </html>
