@@ -37,27 +37,21 @@ $sql = "SELECT * FROM users WHERE username = '".$username."' OR email = '".$emai
 $result = mysqli_query($con,$sql);
 if(mysqli_num_rows($result)>=1)//You are mixing the mysql and mysqli, change this line of code
    {
-    echo"name or mail already exists";
+    $message = "name or mail already exists";
    }
  else
     {  // excecute insert query 
-    
-    
-    
-    
-    
-
     $query = "INSERT into `users` (username, password, email, company, firstname, lastname, functie) VALUES ('$username', '$password', '$email', '$company', '$firstname', '$lastname', 'KLANT')";
     $result1 = mysqli_query($con,$query);
     
     if($result1){
         
-          header("Location: registreer.php");
+        $message = "Geregistreerd";
   
     }
     }
 }else{
-
+}
 
 ?>
 <!doctype html>
@@ -92,6 +86,56 @@ if(mysqli_num_rows($result)>=1)//You are mixing the mysql and mysqli, change thi
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
     <link href="assets/css/pe-icon-7-stroke.css" rel="stylesheet" />
     <script src="https://kit.fontawesome.com/80733e1821.js" crossorigin="anonymous"></script>
+
+    <script>
+function validatePassword() {
+var username,company,firstname,lastname,email,password,output = true;
+
+username = document.frmChange.username;
+company = document.frmChange.company;
+firstname = document.frmChange.firstname;
+lastname = document.frmChange.lastname;
+email = document.frmChange.email;
+password = document.frmChange.password;
+
+
+if(!username.value) {
+username.focus();
+document.getElementById("username").innerHTML = "<span style='color: red;'>required</span>";
+output = false;
+}
+else if(!company.value) {
+company.focus();
+document.getElementById("company").innerHTML = "<span style='color: red;'>required</span>";
+output = false;
+}
+else if(!firstname.value) {
+firstname.focus();
+document.getElementById("firstname").innerHTML = "<span style='color: red;'>required</span>";
+output = false;
+}
+else if(!lastname.value) {
+lastname.focus();
+document.getElementById("lastname").innerHTML = "<span style='color: red;'>required</span>";
+output = false;
+}
+else if(!email.value) {
+email.focus();
+document.getElementById("email").innerHTML = "<span style='color: red;'>required</span>";
+output = false;
+}
+else if(!password.value) {
+password.focus();
+document.getElementById("password").innerHTML = "<span style='color: red;'>required</span>";
+output = false;
+}
+
+
+	
+return output;
+}
+</script>  
+
 </head>
 <body>
 
@@ -106,7 +150,7 @@ if(mysqli_num_rows($result)>=1)//You are mixing the mysql and mysqli, change thi
             <div class="logo">
                 <a href="" class="simple-text">
                 <?php
-                echo "Welcome " .  $row["username"];
+                echo "Welcome " . $row['firstname'] . " " . $row['lastname'];
                 ?>
                 </a>
                 </a>
@@ -137,8 +181,8 @@ if(mysqli_num_rows($result)>=1)//You are mixing the mysql and mysqli, change thi
                         <p>Accounts</p>
                     </a>
                 </li>
-                <li class="registreer">
-                <a href="typography.php">
+                <li class="active">
+                <a href="registreer.php">
                     <i class="fas fa-user-plus"></i>
                         <p>Registreer</p>
                     </a>
@@ -149,30 +193,7 @@ if(mysqli_num_rows($result)>=1)//You are mixing the mysql and mysqli, change thi
                         <p>Password reset</p>
                     </a>
                 </li>
-                <!--<li>
-                    <a href="icons.php">
-                        <i class="pe-7s-science"></i>
-                        <p>Icons</p>
-                    </a>
-                </li>
-                <li>
-                    <a href="maps.php">
-                        <i class="pe-7s-map-marker"></i>
-                        <p>Maps</p>
-                    </a>
-                </li>
-                <li>
-                    <a href="notifications.php">
-                        <i class="pe-7s-bell"></i>
-                        <p>Notifications</p>
-                    </a>
-                </li>-->
-				<!--<li class="active-pro">
-                    <a href="">
-                        
-                        <p>hoi</p>
-                    </a>
-                </li>-->
+              
             </ul>
     	</div>
     </div>
@@ -208,74 +229,205 @@ if(mysqli_num_rows($result)>=1)//You are mixing the mysql and mysqli, change thi
         </nav>
 
 
-        <div class="content">
+        
+                        
+                    
+
+
+
+
+
+
+
+                  <!--  <div class="content">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-md-8">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="header">
+                                <h4 class="title">Registreer
+</h4>
+                            </div>
+                            <div class="content">
+                           
+                            <form name="frmChange" method="post" action=""
+        onSubmit="return validatePassword()">
+        
+                                <div>
+
+
+                                    <div class="row">
+                                       
+                                        <div class="col-md-9">
+                                            <div class="form-group">
+                                                <label>username</label>
+                                                <input type="text"  class="form-control" name="username" placeholder="" class="required"><span id="currentPassword"  class="required"></span>
+                                            </div>
+                                        </div>
+                                      
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-9">
+                                            <div class="form-group">
+                                                <label>company</label>
+                                                <input type="text"  class="form-control" name="company" placeholder="" class="required"><span id="company" class="required">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-9">
+                                            <div class="form-group">
+                                                <label>firstname</label>
+                                                <input type="test"  class="form-control" name="firstname" placeholder="" class="required"></span><span id="firstname" class="required">
+                                            </div>
+                                        </div>
+                                   </div>
+
+
+                                   <div class="row">
+                                        <div class="col-md-9">
+                                            <div class="form-group">
+                                                <label>lastname</label>
+                                                <input type="text"  class="form-control" name="lastname" placeholder="" class="required"></span><span id="lastname" class="required">
+                                            </div>
+                                        </div>
+                                   </div>
+
+
+                                   <div class="row">
+                                        <div class="col-md-9">
+                                            <div class="form-group">
+                                                <label>email</label>
+                                                <input type="email"  class="form-control" name="email" placeholder="" class="required"></span><span id="email" class="required">
+                                            </div>
+                                        </div>
+                                   </div>
+
+
+                                   <div class="row">
+                                        <div class="col-md-9">
+                                            <div class="form-group">
+                                                <label>password</label>
+                                                <input type="password"  class="form-control" name="password" placeholder="" class="required"></span><span id="password" class="required">
+                                            </div>
+                                        </div>
+                                   </div>
+
+
+                                   
+                                    
+
+                                    <button type="submit" class="btn btn-info btn-fill pull-right"  name="submit">Submit</button>
+                                    <div class="clearfix"></div>
+                                  
+                                </form>
+                             </div>
+                            </div>
+                        </div>
+                    </div>-->
+
+                    
+                    <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-6">
                         <div class="card">
                             <div class="header">
                                 <h4 class="title">Registreer</h4>
                             </div>
                             <div class="content">
+                           
+                            <form name="frmChange" method="post" action=""
+        onSubmit="return validatePassword()">
+        
+                                <div>
+                                    <div class="row">
+                                       
+                                        <div class="col-md-9">
+                                            <div class="form-group">
+                                                <label>username</label>
+                                                <input type="text"  class="form-control" name="username" placeholder="" class="required"><span id="username"  class="required"></span>
+                                            </div>
+                                        </div>
+                                      
+                                    </div>
 
+                                    <div class="row">
+                                        <div class="col-md-9">
+                                            <div class="form-group">
+                                                <label>Company</label>
+                                                <input type="text"  class="form-control" name="company" placeholder="" class="required"><span id="company" class="required">
+                                            </div>
+                                        </div>
+                                    </div>
 
-                            <form class="splash-container" name="registration" action="" method="post">
-        <div class="card">
-           
-            <div class="card-body">
-                <div class="form-group">
-                    <input class="form-control form-control-lg" type="text"   name="username" required="" placeholder="Username" autocomplete="off">
-                </div>
+                                    <div class="row">
+                                        <div class="col-md-9">
+                                            <div class="form-group">
+                                                <label>firstname</label>
+                                                <input type="text"  class="form-control" name="firstname" placeholder="" class="required"></span><span id="firstname" class="required">
+                                            </div>
+                                        </div>
+                                   </div>
 
-                <div class="card-body">
-                <div class="form-group">
-                    <input class="form-control form-control-lg" type="text"   name="company" required="" placeholder="company" autocomplete="off">
-                </div>
+                                   <div class="row">
+                                        <div class="col-md-9">
+                                            <div class="form-group">
+                                                <label>lastname</label>
+                                                <input type="text"  class="form-control" name="lastname" placeholder="" class="required"><span id="lastname" class="required">
+                                            </div>
+                                        </div>
+                                    </div>
 
-                <div class="card-body">
-                <div class="form-group">
-                    <input class="form-control form-control-lg" type="text"   name="firstname" required="" placeholder="firstname" autocomplete="off">
-                </div>
+                                    <div class="row">
+                                        <div class="col-md-9">
+                                            <div class="form-group">
+                                                <label>email</label>
+                                                <input type="email"  class="form-control" name="email" placeholder="" class="required"><span id="email" class="required">
+                                            </div>
+                                        </div>
+                                    </div>
 
-                <div class="card-body">
-                <div class="form-group">
-                    <input class="form-control form-control-lg" type="text"   name="lastname" required="" placeholder="lastname" autocomplete="off">
-                </div>
+                                    <div class="row">
+                                        <div class="col-md-9">
+                                            <div class="form-group">
+                                                <label>password</label>
+                                                <input type="password"  class="form-control" name="password" placeholder="" class="required"><span id="password" class="required">
+                                            </div>
+                                        </div>
+                                    </div>
+                                   <div class="message"><?php if(isset($message)) { echo $message; } ?></div>
+                                    
 
-                  
-                
-</div>
-                 
-</div>
-
-            
-                
-                <div class="form-group">
-                    <input class="form-control form-control-lg" type="email" name="email" required="" placeholder="E-mail" autocomplete="off">
-                </div>
-                <div class="form-group">
-                    <input class="form-control form-control-lg" id="pass1" name="password" type="password" required="" placeholder="Password">
-                </div>
-              
-                <div class="form-group pt-2">
-                    <button class="btn btn-block btn-primary" name="submit" type="submit">Register My Account</button>
-                </div>
-               
-               
-               
-            </div>
-            
-        </div>
-    </form>
-</div>
+                                    <button type="submit" class="btn btn-info btn-fill pull-right"  name="submit">Submit</button>
+                                    <div class="clearfix"></div>
+                                  
+                                </form>
+                             </div>
                             </div>
                         </div>
                     </div>
-                    </div>
-                        </div>
-                    </div>
+                                 
+               
 
-      
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+  
+
                     <footer class="footer">
             <div class="container-fluid">
               
@@ -289,7 +441,7 @@ if(mysqli_num_rows($result)>=1)//You are mixing the mysql and mysqli, change thi
     </div>
 </div>
 
-    <?php } ?>
+    
 </body>
 
         <!--   Core JS Files   -->

@@ -60,7 +60,7 @@ $row = mysqli_fetch_array($result);
             <div class="logo">
                 <a href="" class="simple-text">
                 <?php
-                echo "Welcome " .  $row["username"];
+                echo "Welcome " . $row['firstname'] . " " . $row['lastname'];
                 ?>
                 </a>
                 </a>
@@ -226,15 +226,22 @@ $row = mysqli_fetch_array($result);
       <input type="file" name="image" id="file1" class="inputfile inputfile-1"  />
 					<label for="file1"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> <span>Choose a file&hellip;</span></label>
 				
-  	</div>
+      </div>
+      
   	<select name="company">
-    <option value="Gondrand">Gondrand</option>
-    <option value="Kobout">Kobout</option>
+      <?php 
+$sql = mysqli_query($con, "SELECT company FROM users");
+while ($row = $sql->fetch_assoc()){
+    echo "<option>" . $row['company'] . "</option>";
+
+}
+?>
   </select>
  
   	<div>
       <br>
-  		<input type="submit" name="upload" id="file2" class="inputfile inputfile-1"  />
+       
+  		<input type="submit" name="upload" id="file2" value="/project-x-master/uploads/pdf" class="inputfile inputfile-1"  />
 					<label for="file2"><width="20" height="17" viewBox="0 0 20 17"> <span>Upload</span></label>
 			
   	</div>
@@ -251,16 +258,20 @@ if ($result = $con->query($query)) {
         
         echo "<th>image</th>";
         echo "<th>company</th>";
+        echo "<th>Function</th>";
     echo "</tr>";
     while ($row = $result->fetch_assoc()) {
         
         $field2name = $row["image"];
         $field3name = $row["company"];
+
+        $without_extension = basename($field2name, '.pdf');
         
         echo "<tr>";
             
-            echo "<td><a href='/project-x-master/uploads/pdf/".$row['image']."' target='_blank'>" . $field2name ."</a></td>";
+            echo "<td><a href='/project-x-master/uploads/pdf/".$row['image']."' target='_blank'>" . $without_extension ."</a></td>";
             echo "<td>" . $field3name ."</td>";
+            echo "<td><a href=\"delete.php?id=".$row['id']."\">Delete</a></td>";
         echo "</tr>";
         
         
@@ -280,14 +291,9 @@ $result->free();
 
 
 
-<footer class="footer">
-            <div class="container-fluid">
-              
-                <p class="copyright text-center">
-                Copyright &copy;<script>document.write(new Date().getFullYear());</script> JORR-IT Solutions | All rights reserved
-                </p>
-            </div>
-        </footer>
+
+
+
 
 </body>
 

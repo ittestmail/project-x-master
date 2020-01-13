@@ -11,10 +11,10 @@ $oldpwd = password_hash($_POST['currentPassword'], PASSWORD_DEFAULT);
 $newpwd = password_hash($_POST['newPassword'], PASSWORD_DEFAULT);
 $cnfpwd = password_hash($_POST['confirmPassword'], PASSWORD_DEFAULT);
 if (count($_POST) > 0) {
-    $result = mysqli_query($conn, "SELECT * from users WHERE id='" . $_SESSION["id"] . "'");
+    $result = mysqli_query($con, "SELECT * from users WHERE id='" . $_SESSION["id"] . "'");
     $row = mysqli_fetch_array($result);
     if (password_verify($_POST['currentPassword'], $row['password'])) {
-        mysqli_query($conn, "UPDATE users set password='" . $newpwd . "' WHERE id='" . $_SESSION["id"] . "'");
+        mysqli_query($con, "UPDATE users set password='" . $newpwd . "' WHERE id='" . $_SESSION["id"] . "'");
         $message = "Password Changed";
     } else
         $message = "Current Password is not correct";
@@ -108,7 +108,7 @@ return output;
             <div class="logo">
                 <a href="" class="simple-text">
                 <?php
-                echo "Welcome " .  $row["username"];
+                echo "Welcome " . $row['firstname'] . " " . $row['lastname'];
                 ?>
                 </a>
                 </a>
@@ -240,8 +240,6 @@ return output;
         onSubmit="return validatePassword()">
         
                                 <div>
-
-
                                     <div class="row">
                                        
                                         <div class="col-md-9">

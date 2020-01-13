@@ -1,8 +1,8 @@
 <?php
 require('config.php');
 session_start();
-include "check.php";
-$result = mysqli_query($con, "SELECT company, username, email, firstname, lastname FROM users WHERE id = '$_SESSION[id]'");
+require "check.php";
+$result = mysqli_query($con, "SELECT * FROM users WHERE id = '$_SESSION[id]'");
 $row = mysqli_fetch_array($result);
 ?>
 <!doctype html>
@@ -56,7 +56,7 @@ $row = mysqli_fetch_array($result);
             <div class="logo">
                 <a href="" class="simple-text">
                 <?php
-                echo "Welcome " .  $row["username"];
+                echo "Welcome " . $row['firstname'] . " " . $row['lastname'];
                 ?>
                 </a>
                 </a>

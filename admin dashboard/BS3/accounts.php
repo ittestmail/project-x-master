@@ -51,7 +51,7 @@ $row = mysqli_fetch_array($result);
             <div class="logo">
                 <a href="" class="simple-text">
                 <?php
-                echo "Welcome " .  $row["username"];
+                echo "Welcome " . $row['firstname'] . " " . $row['lastname'];
                 ?>
                 </a>
                 </a>
@@ -200,36 +200,18 @@ $row = mysqli_fetch_array($result);
       </div>
     </div>
         </div>
+</div>
+
+</div>
+
+
 
 
         <footer class="footer">
             <div class="container-fluid">
-                <nav class="pull-left">
-                    <ul>
-                        <li>
-                            <a href="#">
-                                Home
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                Company
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                Portfolio
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                               Blog
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-                <p class="copyright pull-right">
-                    &copy; <script>document.write(new Date().getFullYear())</script> <a href="http://www.creative-tim.com">Creative Tim</a>, made with love for a better web
+              
+                <p class="copyright text-center">
+                Copyright &copy;<script>document.write(new Date().getFullYear());</script> JORR-IT Solutions | All rights reserved
                 </p>
             </div>
         </footer>
@@ -239,6 +221,10 @@ $row = mysqli_fetch_array($result);
 
 
 </body>
+
+
+
+
 
     <!--   Core JS Files   -->
     <script src="assets/js/jquery.3.2.1.min.js" type="text/javascript"></script>

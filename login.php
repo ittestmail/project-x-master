@@ -43,7 +43,7 @@ session_start();
 						Account Login
 					</span>
 					
-					<div class="wrap-input100 rs1-wrap-input100 validate-input m-b-20 <?php echo (!empty($username_err)) ? 'has-error' : ''; ?>" data-validate="Type user name">
+					<div class="wrap-input100 rs1-wrap-input100 validate-input m-b-20"  data-validate="Type user name">
 						<input id="first-name" class="input100" type="text" name="username" placeholder="User name">
 						<span class="focus-input100"></span>
 					</div>
@@ -67,7 +67,7 @@ session_start();
 							User name / password?
 						</a>
 					</div>
-
+<?php echo (!empty($username_err)) ? 'has-error' : ''; ?>
 					
 				</form>
 
@@ -171,6 +171,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 							$_SESSION["firstname"] = $firstname;
 							$_SESSION["lastname"] = $lastname;
 							$_SESSION["email"] = $email;
+							$_SESSION["functie"] = $functie;
 							                            
                             if($functie == KLANT){
 							// Redirect user to welcome page

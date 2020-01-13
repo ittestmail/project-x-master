@@ -4,31 +4,17 @@ session_start();
 include "check.php";
 $result = mysqli_query($con, "SELECT company, username, email, firstname, lastname FROM users WHERE id = '$_SESSION[id]'");
 $row = mysqli_fetch_array($result);
+mysqli_query($con, "SELECT * FROM users WHERE id = '". $_SESSION['id'] . "'");
 
 
 
-if (isset($_POST['currentPassword'])){
-    $oldpwd = password_hash($_POST['currentPassword'], PASSWORD_DEFAULT);
-    $newpwd = password_hash($_POST['newPassword'], PASSWORD_DEFAULT);
-    $cnfpwd = password_hash($_POST['confirmPassword'], PASSWORD_DEFAULT);
-    if (count($_POST) > 0) {
-        $result = mysqli_query($conn, "SELECT * from users WHERE id='" . $_SESSION["id"] . "'");
-        $row = mysqli_fetch_array($result);
-        if (password_verify($_POST['currentPassword'], $row['password'])) {
-            mysqli_query($conn, "UPDATE users set password='" . $newpwd . "' WHERE id='" . $_SESSION["id"] . "'");
-            $message = "Password Changed";
-        } else
-            $message = "Current Password is not correct";
-    }
-    } else{
-        
-    }
+
 ?>
 <!doctype html>
 <html lang="en">
 <head>
 	<meta charset="utf-8" />
-	<link rel="icon" type="image/png" href="assets/img/favicon.ico">
+    <link rel="icon" href="favicon.png">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
 	<title>Projext-x</title>
@@ -56,7 +42,8 @@ if (isset($_POST['currentPassword'])){
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
     <link href="assets/css/pe-icon-7-stroke.css" rel="stylesheet" />
     <script src="https://kit.fontawesome.com/80733e1821.js" crossorigin="anonymous"></script>
-    <script>
+    
+<script>
 function validatePassword() {
 var currentPassword,newPassword,confirmPassword,output = true;
 
@@ -88,7 +75,7 @@ output = false;
 } 	
 return output;
 }
-</script> 
+</script>
 </head>
 <body>
 
@@ -102,7 +89,7 @@ return output;
             <div class="logo">
                 <a href="" class="simple-text">
                 <?php
-                echo "Welcome " .  $row['username'];
+                echo "Welcome " . $row['firstname'] . " " . $row['lastname'];
                 ?>
                 </a>
                 </a>
@@ -213,7 +200,7 @@ return output;
                                 <h4 class="title">Edit Profile</h4>
                             </div>
                             <div class="content">
-                                <form method="post" action="profiel.php">
+                                <form method="post" action="profiel.php" onSubmit="return validatePassword()">
                                     <div class="row">
                                         <div class="col-md-5">
                                             <div class="form-group">
@@ -249,6 +236,27 @@ return output;
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Huidig Wachtwoord</label>
+                                                <input type="text" class="form-control" name="currentPassword" placeholder="Huidig Wachtwoord"><span id="currentPassword" class="required"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Nieuw Wachtwoord</label>
+                                                <input type="text" class="form-control" name="newPassword" placeholder="Nieuw Wachtwoord"><span id="newPassword" class="required"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Herhaal nieuw wachtwoord</label>
+                                                <input type="text" class="form-control" name="confirmPassword" placeholder="Herhaal Nieuw Wachtwoord"><span id="confirmPassword" class="required"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
 
                                     
                                    
@@ -257,6 +265,7 @@ return output;
 
                                     <input type="submit" class="btn btn-info btn-fill pull-right" name="update" value="Submit">
                                     <div class="clearfix"></div>
+                                    
                                 </form>
                             </div>
                         </div>
@@ -270,16 +279,40 @@ return output;
     
     
     
-    if (isset($_POST["update"])) {
+    
         
-        mysqli_query($con, "SELECT company, username, email, firstname, lastname FROM users WHERE id = '". $_SESSION['id'] . "'");
-        mysqli_query($con, "UPDATE users set username='" . $_POST['username'] ."', email='". $_POST['email'] ."', firstname='". $_POST['firstname'] . "', lastname='". $_POST['lastname'] ."' WHERE id='" . $_SESSION["id"] . "'");
-        echo "<script>window.location.href = 'profiel.php'</script>";
-    }
+        
+        
+       
+    
 
- 
-    $result = mysqli_query($con, "SELECT company, username, email, firstname, lastname FROM users WHERE id = '$_SESSION[id]'");
-    $row = mysqli_fetch_array($result);
+ if (isset($_POST['update'])){
+    $oldpwd = password_hash($_POST['currentPassword'], PASSWORD_DEFAULT);
+    $newpwd = password_hash($_POST['newPassword'], PASSWORD_DEFAULT);
+    $cnfpwd = password_hash($_POST['confirmPassword'], PASSWORD_DEFAULT);
+    $username = $_POST['username'];
+    $email = $_POST['email'];
+    $firstname = $_POST['firstname'];
+    $lastname = $_POST['lastname'];
+    if (count($_POST) > 0) {
+        $result = mysqli_query($con, "SELECT * from users WHERE id='" . $_SESSION["id"] . "'");
+        $row = mysqli_fetch_array($result);
+        if (password_verify($_POST['currentPassword'], $row['password'])) {
+            mysqli_query($con, "UPDATE users set password='" . $newpwd . "', username='". $username ."', email='". $email ."', firstname='". $firstname ."', lastname='". $lastname ."' WHERE id='" . $_SESSION["id"] . "'");
+            $message = "Password Changed";
+            echo "<script>window.location.href = '/project-x-master/login.php';</script>";
+            session_destroy();
+            
+        } else{
+            
+            mysqli_query($con, "UPDATE users set username='". $username ."', email='". $email ."', firstname='". $firstname ."', lastname='". $lastname ."' WHERE id='" . $_SESSION["id"] . "'");
+           echo "<script>window.location.href = 'profiel.php';</script>";
+    }
+}
+    } else{
+        
+    }
+    
 ?>
                     
                                  
@@ -291,7 +324,7 @@ return output;
                             <div class="content">
                                 <div class="author">
                                      <a href="#">
-                                    <img class="avatar border-gray" src="assets/img/faces/face-3.jpg" alt="..."/>
+                                    <img class="avatar border-gray" src="/project-x-master/uploads/pdf/Jorr-itsolutions.jpg" alt="..."/>
 
                                       <h4 class="title">
                                       <?php echo $row["company"];?>
